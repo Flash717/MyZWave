@@ -116,5 +116,29 @@ def switchStatus(nodeNo = None):
 	network.stop()
 	return "Switch is {}.".format(status)
 
+@app.route('/switch/<nodeNo>/on')
+def switchOn(nodeNo = None):
+	if nodeNo == None:
+		return "No NodeNumber provided."
+	global network
+	initZwave()
+	status = getSwitchStatus(getInt(nodeNo))
+	if status == "off":
+		status = toggleSwitch(getInt(nodeNo))
+	network.stop()
+	return "Switch is {}.".format(status)
+
+@app.route('/switch/<nodeNo>/off')
+def switchOff(nodeNo = None):
+	if nodeNo == None:
+		return "No node number provided."
+	global network
+	initZwave()
+	status = getSwitchStatus(getInt(nodeNo))
+	if status == "on":
+		status = toggleSwitch(getInt(nodeNo))
+	network.stop()
+	return "Switch is {}".format(status)
+
 if __name__ == "__main__":
 	app.run(host='0.0.0.0', debug=True)
