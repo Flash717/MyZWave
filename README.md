@@ -1,5 +1,5 @@
 # MyZWave
-Personal web API based on python-OpenZWave 
+Personal web API based on python-OpenZWave using Flask
 
 Tested with python 3.6 on Mac and Ubuntu, recommended to use `virtualenv`
 
