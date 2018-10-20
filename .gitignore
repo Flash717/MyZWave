@@ -1,3 +1,9 @@
 *.xml
 *.log
+*.pyc
+myzwave.env
+venv/
+.vscode/
+myzwave/
 pyozw.sqlite
+OZW_Log.txt

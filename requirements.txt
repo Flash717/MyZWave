@@ -2,3 +2,4 @@ flask
 requests
 dateutils
 python_openzwave
+celery
