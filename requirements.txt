@@ -3,3 +3,4 @@ requests
 dateutils
 python_openzwave
 celery
+Flask-WTF
