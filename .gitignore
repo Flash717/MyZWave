@@ -4,6 +4,7 @@
 myzwave.env
 venv/
 .vscode/
+.scannerwork/
 myzwave/
 pyozw.sqlite
 OZW_Log.txt
