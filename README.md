@@ -3,6 +3,13 @@ Personal web API based on python-OpenZWave using Flask
 
 Tested with python 3.6 on Mac and Ubuntu, recommended to use `virtualenv`
 
+## Prerequisites
+Set following environment variables:  
+- `OPENWEATHER_API_KEY`=\<your api key from openweathermap.org>  
+- `LOCAL_LATITUDE`=\<your latitude>  
+- `LOCAL_LONGITUDE`=\<your longitude>  
+- `ZWAVE_NODE_NUMBER`=\<ZWave node to be controlled automatically> 
+
 ## How to run
 
 1. Install required packages via `pip install -r requirements.txt`

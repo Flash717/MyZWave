@@ -2,7 +2,7 @@ import threading
 from time import sleep
 from datetime import datetime
 import app.weather as weather
-import myzwave
+import zwavehandler as zw
 import os
 
 class Scheduler:
@@ -15,7 +15,7 @@ class Scheduler:
     nextstart = None
     nextstop = None
 
-    def __init__(self) -> None:
+    def __init__(self):
         self.nextstop = None
         self.nextstart = None
 
@@ -32,10 +32,10 @@ class Scheduler:
         """
         while True:
             if self.nextstart < datetime.now():
-                myzwave.switchOn(nodeNo=nodenumber)
+                zw.switchOn(nodeNo=nodenumber)
                 self.nextstop, self.nextstart = self.schedule_weather()
             elif self.nextstop < datetime.now():
-                myzwave.switchOff(nodeNo=nodenumber)
+                zw.switchOff(nodeNo=nodenumber)
             sleep(self.sleepnumber)
             print('.')
 

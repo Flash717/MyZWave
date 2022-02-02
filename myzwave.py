@@ -1,6 +1,6 @@
 import app.zwave as zw
 import logging
-import app.scheduler as scheduler
+import app.scheduler as sched
 from flask import Flask
 from flask_wtf.csrf import CSRFProtect
 
@@ -66,5 +66,5 @@ def toggle_switch(nodeNo):
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
-    sched = scheduler.Scheduler() 
+    sched = sched.Scheduler() 
     sched.run_scheduler()
