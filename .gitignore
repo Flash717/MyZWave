@@ -8,3 +8,4 @@ venv/
 myzwave/
 pyozw.sqlite
 OZW_Log.txt
+.env
