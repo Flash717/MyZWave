@@ -1,6 +1,7 @@
 import app.zwave as zw
 import logging
-import app.scheduler as sched
+from threading import Thread
+from app.scheduler import Scheduler
 from flask import Flask
 
 logging.basicConfig(level=logging.INFO)
@@ -65,6 +66,9 @@ def toggle_switch(nodeNo):
 
 
 if __name__ == "__main__":
+    sched = Scheduler()
+    t = Thread(target=sched.run, args=())
+    t.start()
     app.run(host='0.0.0.0', debug=True)
-    sched = sched.Scheduler()
-    sched.run_scheduler()
+    sched.terminate()
+    t.join()
