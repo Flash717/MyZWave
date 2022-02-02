@@ -16,8 +16,8 @@ class Scheduler:
     nextstop = None
 
     def __init__(self):
-        self.nextstop = None
-        self.nextstart = None
+        self.nextstop = 1
+        self.nextstart = 1
 
     def schedule_weather(self):
         """Schedule next weather check
@@ -31,10 +31,10 @@ class Scheduler:
         """Running loop to check time and switch
         """
         while True:
-            if self.nextstart < datetime.now():
+            if self.nextstart < datetime.now().timestamp():
                 zw.switchOn(nodeNo=nodenumber)
                 self.nextstop, self.nextstart = self.schedule_weather()
-            elif self.nextstop < datetime.now():
+            elif self.nextstop < datetime.now().timestamp():
                 zw.switchOff(nodeNo=nodenumber)
             sleep(self.sleepnumber)
             print('.')

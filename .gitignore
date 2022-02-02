@@ -6,6 +6,7 @@ venv/
 .vscode/
 .scannerwork/
 myzwave/
+app.weather.egg-info/
 pyozw.sqlite
 OZW_Log.txt
 .env
