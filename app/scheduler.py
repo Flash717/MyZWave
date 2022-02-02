@@ -32,10 +32,10 @@ class Scheduler:
         """
         while True:
             if self.nextstart < mktime(datetime.now().timetuple()):
-                zw.switchOn(nodeNo=nodenumber)
+                zw.switch_on(nodeNo=nodenumber)
                 self.nextstop, self.nextstart = self.schedule_weather()
             elif self.nextstop < mktime(datetime.now().timetuple()):
-                zw.switchOff(nodeNo=nodenumber)
+                zw.switch_off(nodeNo=nodenumber)
             sleep(self.sleepnumber)
             print('.')
 
