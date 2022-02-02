@@ -8,14 +8,13 @@ import sys
 class Scheduler:
 
     def __init__(self):
-        self.nextstop = 1
-        self.nextstart = 1
         self._running = True
         self.lat = os.environ['LOCAL_LATITUDE']
         self.lon = os.environ['LOCAL_LONGITUDE']
         self.apikey = os.environ['OPENWEATHER_API_KEY']
         self.nodenumber = os.environ['ZWAVE_NODE_NUMBER']
         self.sleepnumber = 60
+        self.nextstop, self.nextstart = self.schedule_weather()
 
     def terminate(self):
         self._running = False
@@ -25,7 +24,8 @@ class Scheduler:
         returns next sunrise and sunset timestamps
         """
         sunrise, sunset = weather.get_next_sun(self.lat, self.lon, self.apikey)
-        print('next sunrise is {rise}, next sunset is {set}'.format(rise = sunrise, set = sunset))
+        print('next sunrise is {rise}, next sunset is {set}'.format(
+            rise = weather.d_of_t(sunrise), set = weather.d_of_t(sunset)))
         return sunrise, sunset
 
     def run(self):
