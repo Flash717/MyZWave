@@ -24,8 +24,8 @@ class Scheduler:
         returns next sunrise and sunset timestamps
         """
         sunrise, sunset = weather.get_next_sun(self.lat, self.lon, self.apikey)
-        print('next sunrise is {rise}, next sunset is {set}'.format(
-            rise = weather.d_of_t(sunrise), set = weather.d_of_t(sunset)))
+        print('current time is {now}, next sunrise is {rise}, next sunset is {set}'.format(
+            now = datetime.now(), rise = weather.d_of_t(sunrise), set = weather.d_of_t(sunset)))
         return sunrise, sunset
 
     def run(self):
@@ -38,5 +38,5 @@ class Scheduler:
             elif self.nextstop < mktime(datetime.now().timetuple()):
                 zw.switch_off(nodeNo=self.nodenumber)
             sleep(self.sleepnumber)
-            sys.stdout.write('.')
+            sys.stdout.write('x')
 
