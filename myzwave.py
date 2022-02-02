@@ -2,15 +2,15 @@ import app.zwave as zw
 import logging
 import app.scheduler as sched
 from flask import Flask
-from flask_wtf.csrf import CSRFProtect
+#from flask_wtf.csrf import CSRFProtect
 
 logging.basicConfig(level=logging.INFO)
 
 logger = logging.getLogger('openzwave')
 
 app = Flask(__name__)
-csrf = CSRFProtect()
-csrf.init_app(app)
+#csrf = CSRFProtect()
+#csrf.init_app(app)
 
 myzwave = zw.MyZwave()
 
