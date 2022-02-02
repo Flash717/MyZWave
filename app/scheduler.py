@@ -37,7 +37,7 @@ class Scheduler:
             elif self.nextstop < mktime(datetime.now().timetuple()):
                 zw.switch_off(nodeNo=nodenumber)
             sleep(self.sleepnumber)
-            print('.')
+            print('.', end='')
 
     def run_scheduler(self):
         """
