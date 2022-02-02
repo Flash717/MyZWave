@@ -3,6 +3,7 @@ from datetime import datetime
 import app.weather as weather
 import zwavehandler as zw
 import os
+import sys
 
 class Scheduler:
 
@@ -37,5 +38,5 @@ class Scheduler:
             elif self.nextstop < mktime(datetime.now().timetuple()):
                 zw.switch_off(nodeNo=self.nodenumber)
             sleep(self.sleepnumber)
-            print('.', end='')
+            sys.stdout.write('.')
 

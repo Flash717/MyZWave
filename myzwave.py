@@ -1,4 +1,4 @@
-import app.zwave as zw
+import app.zwavehandler as zw
 import logging
 from threading import Thread
 from app.scheduler import Scheduler
@@ -10,9 +10,6 @@ logger = logging.getLogger('openzwave')
 
 app = Flask(__name__)
 
-myzwave = zw.MyZwave()
-
-
 @app.route('/')
 def index():
     return "Hello World!"
@@ -22,17 +19,13 @@ def index():
 def switchToggle(nodeNo=None):
     if nodeNo == None:
         return "No NodeNumber provided."
-    myzwave.initZwave()
-    status = myzwave.toggleSwitch(myzwave.getInt(nodeNo))
-    myzwave.network.stop()
+    status = zw.toggle_switch(nodeNo)
     return "Switched {}.".format(status)
 
 
 @app.route('/switch/<nodeNo>/status')
 def switchStatus(nodeNo=None):
-    myzwave.initZwave()
-    status = myzwave.getSwitchStatus(myzwave.getInt(nodeNo))
-    myzwave.network.stop()
+    status = zw.get_status(nodeNo)
     return "Switch is {}.".format(status)
 
 
@@ -40,11 +33,7 @@ def switchStatus(nodeNo=None):
 def switchOn(nodeNo=None):
     if nodeNo == None:
         return "No NodeNumber provided."
-    myzwave.initZwave()
-    status = myzwave.getSwitchStatus(myzwave.getInt(nodeNo))
-    if status == "off":
-        status = myzwave.toggleSwitch(myzwave.getInt(nodeNo))
-    myzwave.network.stop()
+    status = zw.switch_on(nodeNo)
     return "Switch is {}.".format(status)
 
 
@@ -52,23 +41,16 @@ def switchOn(nodeNo=None):
 def switchOff(nodeNo=None):
     if nodeNo == None:
         return "No node number provided."
-    status = toggle_switch(nodeNo)
+    status = zw.switch_off(nodeNo)
     return "Switch is {}".format(status)
 
-
-def toggle_switch(nodeNo):
-    myzwave.initZwave()
-    status = myzwave.getSwitchStatus(myzwave.getInt(nodeNo))
-    if status == "on":
-        status = myzwave.toggleSwitch(myzwave.getInt(nodeNo))
-    myzwave.network.stop()
-    return status
-
-
 if __name__ == "__main__":
-    sched = Scheduler()
-    t = Thread(target=sched.run, args=())
-    t.start()
-    app.run(host='0.0.0.0', debug=True)
-    sched.terminate()
-    t.join()
+    try:
+        sched = Scheduler()
+        t = Thread(target=sched.run, args=())
+        t.start()
+        app.run(host='0.0.0.0', debug=True)
+        sched.terminate()
+        t.join()
+    except Exception as e:
+        print('something went wrong ' + repr(e))
