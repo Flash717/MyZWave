@@ -3,7 +3,6 @@ import os
 from datetime import datetime
 
 url = 'http://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude=minutely,hourly&APPID={apikey}'
-api_key = os.environ['OPENWEATHER_API_KEY']
 
 def d_of_t(timestamp):
     """Helper function to convert timestamp to datetime
@@ -15,11 +14,12 @@ def d_of_t(timestamp):
     except (Exception):
         return timestamp
 
-def get_next_sun(lat, lon):
+def get_next_sun(lat, lon, api_key):
     """Get next sunrise and sunset for provided latitude and longitude.
 
     :param lat: latitude float
     :param lon: longitude float
+    :param api_key: api key for openweather API string
     :return sunrise, sunset: returns timestamp for next sunrise and sunset
     """
     response = requests.get(url.format(lat=lat, lon=lon, apikey=api_key))
@@ -33,8 +33,3 @@ def get_next_sun(lat, lon):
             sunset = body['daily'][1]['sunset']
         return sunrise, sunset
     return None, None
-
-if __name__ == '__main__':
-    sunrise, sunset = get_next_sun(32.18,-96.81)
-    print(d_of_t(sunrise))
-    print(d_of_t(sunset))

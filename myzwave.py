@@ -1,5 +1,6 @@
 import app.zwave as zw
 import logging
+import app.scheduler as scheduler
 from flask import Flask
 from flask_wtf.csrf import CSRFProtect
 
@@ -52,13 +53,18 @@ def switchOn(nodeNo=None):
 def switchOff(nodeNo=None):
     if nodeNo == None:
         return "No node number provided."
+    status = toggle_switch(nodeNo)
+    return "Switch is {}".format(status)
+
+def toggle_switch(nodeNo):
     myzwave.initZwave()
     status = myzwave.getSwitchStatus(myzwave.getInt(nodeNo))
     if status == "on":
         status = myzwave.toggleSwitch(myzwave.getInt(nodeNo))
     myzwave.network.stop()
-    return "Switch is {}".format(status)
-
+    return status
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
+    sched = scheduler.Scheduler() 
+    sched.run_scheduler()
