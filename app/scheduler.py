@@ -1,5 +1,5 @@
 import threading
-from time import sleep
+from time import sleep, mktime
 from datetime import datetime
 import app.weather as weather
 import zwavehandler as zw
@@ -31,10 +31,10 @@ class Scheduler:
         """Running loop to check time and switch
         """
         while True:
-            if self.nextstart < datetime.now().timestamp():
+            if self.nextstart < mktime(datetime.now().timetuple()):
                 zw.switchOn(nodeNo=nodenumber)
                 self.nextstop, self.nextstart = self.schedule_weather()
-            elif self.nextstop < datetime.now().timestamp():
+            elif self.nextstop < mktime(datetime.now().timetuple()):
                 zw.switchOff(nodeNo=nodenumber)
             sleep(self.sleepnumber)
             print('.')
