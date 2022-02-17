@@ -53,4 +53,4 @@ if __name__ == "__main__":
         sched.terminate()
         t.join()
     except Exception as e:
-        print('something went wrong ' + repr(e))
+        logger.error('something went wrong ' + repr(e))

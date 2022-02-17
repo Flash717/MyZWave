@@ -1,5 +1,4 @@
 import requests
-import os
 from datetime import datetime
 
 url = 'http://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude=minutely,hourly&APPID={apikey}'
