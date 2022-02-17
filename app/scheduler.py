@@ -4,7 +4,7 @@ import app.weather as weather
 import zwavehandler as zw
 import os
 import sys
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
 class Scheduler:
 
@@ -22,7 +22,7 @@ class Scheduler:
 
     def _load_env_vars(self):
         try:
-            load_dotenv()
+            # load_dotenv()
             self.lat = os.environ['LOCAL_LATITUDE']
             self.lon = os.environ['LOCAL_LONGITUDE']
             self.apikey = os.environ['OPENWEATHER_API_KEY']
