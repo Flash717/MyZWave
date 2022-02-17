@@ -24,10 +24,10 @@ class Scheduler:
     def _load_env_vars(self):
         try:
             # load_dotenv()
-            self.lat = os.environ['LOCAL_LATITUDE']
-            self.lon = os.environ['LOCAL_LONGITUDE']
-            self.apikey = os.environ['OPENWEATHER_API_KEY']
-            self.nodenumber = os.environ['ZWAVE_NODE_NUMBER']
+            self.lat = os.environ.get('LOCAL_LATITUDE', 0)
+            self.lon = os.environ.get('LOCAL_LONGITUDE', 0)
+            self.apikey = os.environ.get('OPENWEATHER_API_KEY', 'n/a')
+            self.nodenumber = os.environ.get('ZWAVE_NODE_NUMBER', 1)
         except Exception as e:
             logging.error("could not load environment vars: " + repr(e))
             self._running = False
@@ -53,4 +53,5 @@ class Scheduler:
                 logging.info('scheduled off')
                 zw.switch_off(nodeNo=self.nodenumber)
             sleep(self.sleepnumber)
+            logging.info('.')
 
