@@ -4,3 +4,4 @@ dateutils
 python_openzwave
 celery
 Flask-WTF
+python-dotenv
