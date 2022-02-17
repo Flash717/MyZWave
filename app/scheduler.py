@@ -53,5 +53,6 @@ class Scheduler:
                 logging.info('scheduled off')
                 zw.switch_off(nodeNo=self.nodenumber)
             sleep(self.sleepnumber)
-            logging.info('.')
+            logging.info('check-in: next sunrise is {rise}, next sunset is {set}'.format(
+                rise=weather.d_of_t(self.nextstop), set=weather.d_of_t(self.nextstart)))
 
