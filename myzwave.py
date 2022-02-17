@@ -4,7 +4,8 @@ from threading import Thread
 from app.scheduler import Scheduler
 from flask import Flask
 
-logging.basicConfig(level=logging.INFO, filename='myzwave.log', encoding='utf-8')
+logging.basicConfig(level=logging.INFO, filename='myzwave.log', encoding='utf-8',
+    format='%(asctime)s %(message)s')
 
 logger = logging.getLogger('openzwave')
 
