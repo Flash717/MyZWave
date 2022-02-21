@@ -11,9 +11,9 @@ class Scheduler:
 
     def __init__(self):
         self._running = True
-        self.sleepnumber = 60
-        self.nextstart = mktime(datetime.now().timetuple()) + 1
-        self.nextstop = mktime(datetime.now().timetuple()) -1
+        self._sleepnumber = 60
+        self.nextstart = mktime(datetime.now().timetuple()) + (60 * 60 * 24)
+        self.nextstop = mktime(datetime.now().timetuple()) - (60 * 60 * 24)
         self._load_env_vars()
         if self._running:
             self.nextstop, self.nextstart = self.schedule_weather()
@@ -44,15 +44,19 @@ class Scheduler:
     def run(self):
         """Running loop to check time and switch
         """
+        logCounter = 0
         while self._running:
             if self.nextstart < mktime(datetime.now().timetuple()):
-                logging.info('scheduled on')
+                logging.info('scheduled on for node {node}'.format(node=self.nodenumber))
                 zw.switch_on(nodeNo=self.nodenumber)
                 self.nextstop, self.nextstart = self.schedule_weather()
             elif self.nextstop < mktime(datetime.now().timetuple()):
-                logging.info('scheduled off')
+                logging.info('scheduled off for node {node}'.format(node=self.nodenumber))
                 zw.switch_off(nodeNo=self.nodenumber)
-            sleep(self.sleepnumber)
-            logging.info('check-in: next sunrise is {rise}, next sunset is {set}'.format(
-                rise=weather.d_of_t(self.nextstop), set=weather.d_of_t(self.nextstart)))
+            sleep(self._sleepnumber)
+            logCounter += 1
+            logCounter %= 15
+            if (logCounter == 0):
+                logging.info('check-in: next sunrise is {rise}, next sunset is {set}'.format(
+                    rise=weather.d_of_t(self.nextstop), set=weather.d_of_t(self.nextstart)))
 
