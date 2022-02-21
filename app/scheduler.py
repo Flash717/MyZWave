@@ -53,6 +53,7 @@ class Scheduler:
             elif self.nextstop < mktime(datetime.now().timetuple()):
                 logging.info('scheduled off for node {node}'.format(node=self.nodenumber))
                 zw.switch_off(nodeNo=self.nodenumber)
+                self.nextstop, self.nextstart = self.schedule_weather()
             sleep(self._sleepnumber)
             logCounter += 1
             logCounter %= 15
