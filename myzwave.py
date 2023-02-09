@@ -53,7 +53,7 @@ def get_schedule():
 
 if __name__ == "__main__":
     try:
-        t = Thread(target=sched.run, daemon=True, args=())
+        t = Thread(target=sched.run, args=())
         t.start()
         app.run(host='0.0.0.0', debug=True)
     except Exception as e:
