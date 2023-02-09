@@ -11,47 +11,50 @@ logger = logging.getLogger('openzwave')
 
 app = Flask(__name__)
 
+sched = Scheduler()
+
 @app.route('/')
 def index():
-    return "Hello World!"
+    return "MyZWave"
 
 
-@app.route('/switch/<nodeNo>/toggle')
-def switchToggle(nodeNo=None):
-    if nodeNo == None:
+@app.route('/switch/<node_no>/toggle')
+def switch_toggle(node_no=None):
+    if node_no == None:
         return "No NodeNumber provided."
-    status = zw.toggle_switch(nodeNo)
+    status = zw.toggle_switch(node_no)
     return "Switched {}.".format(status)
 
 
-@app.route('/switch/<nodeNo>/status')
-def switchStatus(nodeNo=None):
-    status = zw.get_status(nodeNo)
+@app.route('/switch/<node_no>/status')
+def switch_status(node_no=None):
+    status = zw.get_status(node_no)
     return "Switch is {}.".format(status)
 
 
-@app.route('/switch/<nodeNo>/on')
-def switchOn(nodeNo=None):
-    if nodeNo == None:
+@app.route('/switch/<node_no>/on')
+def switch_on(node_no=None):
+    if node_no == None:
         return "No NodeNumber provided."
-    status = zw.switch_on(nodeNo)
+    status = zw.switch_on(node_no)
     return "Switch is {}.".format(status)
 
 
-@app.route('/switch/<nodeNo>/off')
-def switchOff(nodeNo=None):
-    if nodeNo == None:
+@app.route('/switch/<node_no>/off')
+def switch_off(node_no=None):
+    if node_no == None:
         return "No node number provided."
-    status = zw.switch_off(nodeNo)
+    status = zw.switch_off(node_no)
     return "Switch is {}".format(status)
+
+@app.route('/schedule')
+def get_schedule():
+    return sched.get_schedule()
 
 if __name__ == "__main__":
     try:
-        sched = Scheduler()
-        t = Thread(target=sched.run, args=())
+        t = Thread(target=sched.run, daemon=True, args=())
         t.start()
         app.run(host='0.0.0.0', debug=True)
-        sched.terminate()
-        t.join()
     except Exception as e:
         logger.error('something went wrong ' + repr(e))

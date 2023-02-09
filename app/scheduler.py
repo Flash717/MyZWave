@@ -33,7 +33,8 @@ class Scheduler:
             self._running = False
 
     def schedule_weather(self):
-        """Schedule next weather check
+        """
+        Schedule next weather check
         returns next sunrise and sunset timestamps
         """
         sunrise, sunset = weather.get_next_sun(self.lat, self.lon, self.apikey)
@@ -41,10 +42,15 @@ class Scheduler:
             now = datetime.now(), rise = weather.d_of_t(sunrise), set = weather.d_of_t(sunset)))
         return sunrise, sunset
 
+    def get_schedule(self):
+        return 'Current time is {now}, next sunrise is {rise}, next sunset is {set}'.format(
+            now = datetime.now(), rise=weather.d_of_t(self.nextstop), set=weather.d_of_t(self.nextstart))
+
     def run(self):
-        """Running loop to check time and switch
         """
-        logCounter = 0
+        Running loop to check time and switch
+        """
+        log_counter = 0
         while self._running:
             if self.nextstart < mktime(datetime.now().timetuple()):
                 logging.info('scheduled on for node {node}'.format(node=self.nodenumber))
@@ -55,9 +61,8 @@ class Scheduler:
                 zw.switch_off(nodeNo=self.nodenumber)
                 self.nextstop, self.nextstart = self.schedule_weather()
             sleep(self._sleepnumber)
-            logCounter += 1
-            logCounter %= 15
-            if (logCounter == 0):
-                logging.info('check-in: next sunrise is {rise}, next sunset is {set}'.format(
-                    rise=weather.d_of_t(self.nextstop), set=weather.d_of_t(self.nextstart)))
+            log_counter += 1
+            log_counter %= 15
+            if (log_counter == 0):
+                logging.info('check-in: {log}'.format(log = self.get_schedule()))
 
