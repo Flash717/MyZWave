@@ -53,8 +53,8 @@ def get_schedule():
 
 if __name__ == "__main__":
     try:
-        t = Thread(target=sched.run, args=())
-        t.start()
+        # t = Thread(target=sched.run, args=())
+        # t.start()
         app.run(host='0.0.0.0', debug=True)
     except Exception as e:
         logger.error('something went wrong ' + repr(e))
