@@ -1,6 +1,6 @@
+from multiprocessing import Process
 import app.zwavehandler as zw
 import logging
-from threading import Thread
 from app.scheduler import Scheduler
 from flask import Flask
 
@@ -53,8 +53,8 @@ def get_schedule():
 
 if __name__ == "__main__":
     try:
-        # t = Thread(target=sched.run, args=())
-        # t.start()
+        p = Process(target=sched.run, args=())
+        p.start()
         app.run(host='0.0.0.0', debug=True)
     except Exception as e:
         logger.error('something went wrong ' + repr(e))
