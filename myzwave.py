@@ -53,7 +53,7 @@ def get_schedule():
 
 if __name__ == "__main__":
     try:
-        p = Process(target=sched.run, args=())
+        p = Process(target=sched.run, name='MyZWave-Scheduler' ,args=())
         p.start()
         app.run(host='0.0.0.0', debug=True)
     except Exception as e:
