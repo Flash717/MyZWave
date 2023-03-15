@@ -54,11 +54,13 @@ class Scheduler:
         while self._running:
             if self.nextstart < mktime(datetime.now().timetuple()):
                 logging.info('scheduled on for node {node}'.format(node=self.nodenumber))
-                zw.switch_on(nodeNo=self.nodenumber)
+                status = zw.switch_on(nodeNo=self.nodenumber)
+                logging.info("scheduled switch is {}".format(status))
                 self.nextstop, self.nextstart = self.schedule_weather()
             elif self.nextstop < mktime(datetime.now().timetuple()):
                 logging.info('scheduled off for node {node}'.format(node=self.nodenumber))
-                zw.switch_off(nodeNo=self.nodenumber)
+                status = zw.switch_off(nodeNo=self.nodenumber)
+                logging.info("scheduled switch is {}".format(status))
                 self.nextstop, self.nextstart = self.schedule_weather()
             sleep(self._sleepnumber)
             log_counter += 1
