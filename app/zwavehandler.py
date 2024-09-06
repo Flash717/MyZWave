@@ -1,6 +1,8 @@
 import zwave as zw
+import logging
 
 myzwave = zw.MyZwave()
+logger = logging.getLogger('myZwave')
 
 def toggle_switch(nodeNo):
     myzwave.initZwave()
@@ -29,3 +31,11 @@ def get_status(nodeNo):
     status = myzwave.getSwitchStatus(myzwave.getInt(nodeNo))
     myzwave.network.stop()
     return status
+
+def get_nodes():
+    myzwave.initZwave()
+    logger.debug("ZWave initialized")
+    result = myzwave.getNodes()
+    logger.debug("Node information received")
+    myzwave.network.stop()
+    return result

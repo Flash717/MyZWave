@@ -9,6 +9,8 @@ from openzwave.network import ZWaveNetwork
 from openzwave.option import ZWaveOption
 import time
 
+logger = logging.getLogger('zwave')
+
 class MyZwave:
     device="/dev/ttyACM0"
     config_path="/home/pi/Documents/Development/Python/python-openzwave-0.3.2/openzwave/config"
@@ -81,6 +83,16 @@ class MyZwave:
         val = node.get_switches().keys()[0]
         state = node.get_switch_state(val)
         return "on" if state else "off"
+
+    def getNodes(self):
+        nodes = self.network.nodes
+        logger.debug("got nodes: " + str(len(nodes)) + "\ttype: " + str(type(nodes)))
+        for i in nodes:
+            logger.debug("node info: " + str(i))
+            node = nodes[i]
+            logger.debug("node info2: " + str(node))
+        return nodes
+
 
     def getInt(self, strNo):
         if strNo == None:
