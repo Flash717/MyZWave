@@ -1,6 +1,7 @@
 *.xml
 *.log
 *.pyc
+*.swp
 myzwave.env
 venv/
 .vscode/
