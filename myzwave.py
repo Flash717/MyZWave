@@ -3,7 +3,7 @@ import app.zwavehandler as zw
 import logging
 import json
 from app.scheduler import Scheduler
-from flask import Flask
+from flask import Flask, jsonify
 
 logging.basicConfig(level=logging.DEBUG, filename='myzwave.log', encoding='utf-8',
     format='%(asctime)s - %(name)s - %(message)s')
@@ -16,41 +16,41 @@ sched = Scheduler()
 
 @app.route('/')
 def index():
-    return "MyZWave"
+    return jsonify({"message": "MyZWave"})
 
 
 @app.route('/switch/<node_no>/toggle')
 def switch_toggle(node_no=None):
     if node_no == None:
-        return "No NodeNumber provided."
+        return jsonify({"message": "No NodeNumber provided."})
     status = zw.toggle_switch(node_no)
-    return "Switched {}.".format(status)
+    return jsonify({"message": "Switched {}.".format(status), "node": node_no})
 
 
 @app.route('/switch/<node_no>/status')
 def switch_status(node_no=None):
     status = zw.get_status(node_no)
-    return "Switch is {}.".format(status)
+    return jsonify({"message": "Switch is {}.".format(status), "node": node_no})
 
 
 @app.route('/switch/<node_no>/on')
 def switch_on(node_no=None):
     if node_no == None:
-        return "No NodeNumber provided."
+        return jsonify({"message": "No NodeNumber provided."})
     status = zw.switch_on(node_no)
-    return "Switch is {}.".format(status)
+    return jsonify({"message": "Switch is {}.".format(status), "node": node_no})
 
 
 @app.route('/switch/<node_no>/off')
 def switch_off(node_no=None):
     if node_no == None:
-        return "No node number provided."
+        return jsonify({"message": "No node number provided."})
     status = zw.switch_off(node_no)
-    return "Switch is {}".format(status)
+    return jsonify({"message": "Switch is {}".format(status), "node": node_no})
 
 @app.route('/schedule')
 def get_schedule():
-    return sched.get_schedule()
+    return jsonify(sched.get_schedule())
 
 @app.route('/nodeinfo')
 def get_node_info():
@@ -74,6 +74,6 @@ if __name__ == "__main__":
     try:
         p = Process(target=sched.run, name='MyZWave-Scheduler' ,args=())
         p.start()
-        app.run(host='0.0.0.0', debug=True)
+        app.run(host='0.0.0.0', debug=True, port=5000)
     except Exception as e:
         logger.error('something went wrong ' + repr(e))

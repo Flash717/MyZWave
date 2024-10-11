@@ -43,8 +43,10 @@ class Scheduler:
         return sunrise, sunset
 
     def get_schedule(self):
-        return 'Current time is {now}, next sunrise is {rise}, next sunset is {set}'.format(
-            now = datetime.now(), rise=weather.d_of_t(self.nextstop), set=weather.d_of_t(self.nextstart))
+        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        rise=weather.d_of_t(self.nextstop).strftime("%Y-%m-%d %H:%M:%S")
+        set=weather.d_of_t(self.nextstart).strftime("%Y-%m-%d %H:%M:%S")
+        return {"current time": now, "next sunrise": rise, "next sunset": set}
 
     def run(self):
         """
